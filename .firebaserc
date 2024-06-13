@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "staging": "work-wizard-bf979",
+    "default": "work-wizard-bf979"
+  },
+  "targets": {},
+  "etags": {}
+}
