@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1045502999827",
+    "project_id": "work-wizard-bf979",
+    "storage_bucket": "work-wizard-bf979.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045502999827:android:48aaf1dd65e9c3ccd9aee6",
+        "android_client_info": {
+          "package_name": "com.example.work_wizard_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuudYE6B0FpHibnTYGZbMc9wrNia2mOvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
