@@ -16,8 +16,8 @@ class CheckForPreferenceSuccess extends AuthState {
   AppUser? user;
 }
 
-class LoginWithPasswordSuccess extends AuthState {
-  LoginWithPasswordSuccess({this.user});
+class LoginWithMicrosoftSuccess extends AuthState {
+  LoginWithMicrosoftSuccess({this.user});
 
   AppUser? user;
 }

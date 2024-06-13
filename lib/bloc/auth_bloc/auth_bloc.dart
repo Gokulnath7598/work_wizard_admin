@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/helper_functions.dart';
-import '../../../core/utils/utils.dart';
 import '../../../models/app_user.dart';
-import '../../../models/token.dart';
 import '../../api_services/auth_service.dart';
+import '../../app_config.dart';
 import '../../core/base_bloc/base_bloc.dart';
 import '../../core/preference_client/preference_client.dart';
 import '../../views/auth/login_page.dart';
@@ -23,7 +23,7 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
 
   final AuthService authService = AuthService();
 
-  LoginWithPasswordSuccess loginWithPasswordSuccess = LoginWithPasswordSuccess();
+  LoginWithMicrosoftSuccess loginWithPasswordSuccess = LoginWithMicrosoftSuccess();
   CheckForPreferenceSuccess checkForPreferenceSuccess = CheckForPreferenceSuccess();
 
   FutureOr<void> _checkForPreference(
@@ -34,34 +34,47 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
     emit(checkForPreferenceSuccess..user = user);
   }
 
-  FutureOr<void> _loginWithPassword(
-      LoginWithPassword event, Emitter<AuthState> emit) async {
+  FutureOr<void> _loginWithMicrosoft(
+      LoginWithMicrosoft event, Emitter<AuthState> emit) async {
       emit(AuthLoading());
-      final Map<String, dynamic> objToApi = <String, dynamic>{
-        'employee': <String, Object>{
-          'email': event.mobile ?? '',
-          'password': event.password ?? '',
-          'build_number': 100,
-          'is_mobile': true,
-          'grant_type': 'password'
-        }
-      };
-      final Map<String, dynamic>? response =
-      await authService.loginWithPassword(objToApi: objToApi);
-      final AppUser? user = response?['customer'] as AppUser?;
-      final Token? token = response?['token'] as Token?;
+      final provider = OAuthProvider('microsoft.com');
+      provider.setCustomParameters({
+        'tenant': AppConfig.shared.msTenantID,
+      });
+      final UserCredential credential = await FirebaseAuth.instance.signInWithPopup(provider);
+      final User? user = credential.user;
+      print(user);
+      AppUser appUser = AppUser(id: 1, name: user?.displayName);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      PreferencesClient(prefs: prefs).saveUser(appUser: user);
-      PreferencesClient(prefs: prefs).setUserAccessToken(token: token);
-      emit(loginWithPasswordSuccess..user = user);
+      PreferencesClient(prefs: prefs).saveUser(appUser: appUser);
+      // PreferencesClient(prefs: prefs).setUserAccessToken(token: credential.credential.accessToken);
+      emit(loginWithPasswordSuccess..user = appUser);
+      // final Map<String, dynamic> objToApi = <String, dynamic>{
+      //   'employee': <String, Object>{
+      //     'email': event.mobile ?? '',
+      //     'password': event.password ?? '',
+      //     'build_number': 100,
+      //     'is_mobile': true,
+      //     'grant_type': 'password'
+      //   }
+      // };
+      // final Map<String, dynamic>? response =
+      // await authService.loginWithPassword(objToApi: objToApi);
+      // final AppUser? user = response?['customer'] as AppUser?;
+      // final Token? token = response?['token'] as Token?;
+      // final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // PreferencesClient(prefs: prefs).saveUser(appUser: user);
+      // PreferencesClient(prefs: prefs).setUserAccessToken(token: token);
+      // emit(loginWithPasswordSuccess..user = user);
   }
 
   FutureOr<void> _logOut(LogOut event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final Token? token = await PreferencesClient(prefs: prefs).getUserAccessToken();
-    final Map<String, String> headersToApi = await Utils.getHeader(token?.accessToken);
-    await authService.logOut(headersToApi: headersToApi);
+    // final Token? token = await PreferencesClient(prefs: prefs).getUserAccessToken();
+    // final Map<String, String> headersToApi = await Utils.getHeader(token?.accessToken);
+    // await authService.logOut(headersToApi: headersToApi);
+    await FirebaseAuth.instance.signOut();
     PreferencesClient(prefs: prefs).saveUser();
     emit(LogOutSuccess());
   }
@@ -71,8 +84,8 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
     switch (event.runtimeType) {
       case const (CheckForPreference):
         return _checkForPreference(event as CheckForPreference, emit);
-      case const (LoginWithPassword):
-        return _loginWithPassword(event as LoginWithPassword, emit);
+      case const (LoginWithMicrosoft):
+        return _loginWithMicrosoft(event as LoginWithMicrosoft, emit);
       case const (LogOut):
         return _logOut(event as LogOut, emit);
     }
@@ -96,9 +109,9 @@ Future<void> onAuthBlocChange(
             builder: (_) => const LoginPage(),
           ));
 
-    case const (LoginWithPasswordSuccess):
-      final LoginWithPasswordSuccess currentState =
-          state as LoginWithPasswordSuccess;
+    case const (LoginWithMicrosoftSuccess):
+      final LoginWithMicrosoftSuccess currentState =
+          state as LoginWithMicrosoftSuccess;
       appBloc.add(SaveCurrentUser(user: currentState.user));
       Navigator.pushReplacement(
           context,

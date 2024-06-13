@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/app_bloc/app_bloc.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../core/utils/app_assets.dart';
 import '../global_widgets/common_button.dart';
-import '../global_widgets/form_helper/text_field.dart';
-import '../global_widgets/widget_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,15 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   late final AuthBloc authBloc;
   late final AppBloc appBloc;
 
   @override
   void initState() {
-    userNameController.text = 'TCRO1';
-    passwordController.text = 'Password@123';
     authBloc = BlocProvider.of<AuthBloc>(context);
     appBloc = BlocProvider.of<AppBloc>(context);
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
@@ -36,51 +31,45 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> logInFormKey = GlobalKey<FormState>();
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-          title:
-              Text('Flutter BLoC Boiler Plate', style: textTheme.titleLarge)),
-      body: SafeArea(
-          child: Form(
-        key: logInFormKey,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AppAssets.loginBG),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           children: <Widget>[
             const Spacer(),
-            CommonTextField(
-                customKey: const Key('username_textfield_key'),
-                controller: userNameController,
-                labelText: 'User Name',
-                validator: Validator.empty_validator),
-            getSpace(20.sp, 0),
-            CommonTextField(
-                customKey: const Key('password_textfield_key'),
-                controller: passwordController,
-                labelText: 'Password',
-                validator: Validator.password_validator),
+            Text('WORK WIZARD', style: textTheme.titleLarge?.copyWith(color: colorScheme.secondary, letterSpacing: 50, fontWeight: FontWeight.w900)),
             const Spacer(),
+            Row(
+              children: <Widget>[
+                Image.asset(AppAssets.arrowLeft, height: 20),
+                Expanded(child: Text('user friendly ET Sheet reminder and tracker', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary), textAlign: TextAlign.center)),
+                Image.asset(AppAssets.arrowRight, height: 20),
+              ],
+            ),
+            const Spacer(),
+            const Spacer(),
+            BlocBuilder<AuthBloc, AuthState>(
+                builder: (BuildContext context, AuthState state) {
+                  return MSLoginButton(
+                    onPressed: () {
+                      authBloc.add(LoginWithMicrosoft());
+                    },
+                    text: 'Sign in with Microsoft',
+                    isLoading: state is AuthLoading
+                  );
+                }),
             const Spacer(),
           ],
         ),
-      )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: BlocBuilder<AuthBloc, AuthState>(
-          builder: (BuildContext context, AuthState state) {
-        return CommonButton(
-          customKey: const Key('login_button_key'),
-          onPressed: () {
-            if (logInFormKey.currentState?.validate() ?? false) {
-              authBloc.add(LoginWithPassword(
-                  userNameController.text, passwordController.text));
-            }
-          },
-          text: 'Login',
-          isLoading: state is AuthLoading,
-          loadingText: 'Logging in...',
-        );
-      }),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,6 +41,11 @@ abstract class BaseBloc<E, S extends ErrorState> extends Bloc<E, S> {
           ..errorCode = 0
           ..errorMsg = err.toString());
       }
+    }  on FirebaseAuthException catch (err) {
+      debugPrint('============ firebase catch block: $err');
+      emit(getErrorState()
+        ..errorCode = 0
+        ..errorMsg = err.message.toString());
     } catch (err) {
       debugPrint('============ eventHandler catch block: $err');
       emit(getErrorState()

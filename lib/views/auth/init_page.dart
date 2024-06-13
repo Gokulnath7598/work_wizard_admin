@@ -40,7 +40,7 @@ class _InitPageState extends State<InitPage> {
                 case const (CheckForPreferenceSuccess):
                   final CheckForPreferenceSuccess currentState = state as CheckForPreferenceSuccess;
                   appBloc.add(SaveCurrentUser(user: currentState.user));
-                  if(Utils.nullOrEmpty(currentState.user?.firstname)){
+                  if(Utils.nullOrEmpty(currentState.user?.name)){
                     return const LoginPage();
                   }else{
                     return const HomePage();

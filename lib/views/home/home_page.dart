@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sidebarx/sidebarx.dart';
 import '../../bloc/app_bloc/app_bloc.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
-import '../global_widgets/common_button.dart';
+import '../employee/employee_tab.dart';
+import '../projects/projects_tab.dart';
+import 'home_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final AppBloc appBloc;
   late final AuthBloc authBloc;
+  final SidebarXController _controller = SidebarXController(selectedIndex: 0, extended: false);
 
   @override
   void initState() {
@@ -30,38 +35,83 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<AuthBloc, AuthState>(
-      builder: (BuildContext context, AuthState state) {
+        builder: (BuildContext context, AuthState state) {
         return Scaffold(
-          appBar: AppBar(
-              title: Text('Flutter BLoC Boiler Plate',
-                  style: textTheme.titleLarge)),
-          body: Column(
-            children: <Widget>[
-              const Spacer(),
-              Center(
-                child: BlocBuilder<AppBloc, AppState>(
-                    builder: (BuildContext context, AppState state) {
-                  return Text(
-                      'Welcome, ${appBloc.stateData.user?.firstname ?? ''} ${appBloc.stateData.user?.lastname ?? ''}',
-                      style: textTheme.titleLarge);
-                }),
+          body: Row(
+            children: [
+              SidebarX(
+                controller: _controller,
+                extendedTheme: SidebarXTheme(
+                  textStyle: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 6.sp),
+                  selectedTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp),
+                  hoverTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 7.sp, fontWeight: FontWeight.w600),
+                  iconTheme: IconThemeData(color: colorScheme.scrim),
+                  hoverIconTheme: IconThemeData(color: colorScheme.secondary),
+                  selectedIconTheme: IconThemeData(color: colorScheme.secondary),
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                  ),
+                  itemTextPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 10)
+                ),
+                theme: SidebarXTheme(
+                    iconTheme: IconThemeData(color: colorScheme.scrim),
+                    hoverIconTheme: IconThemeData(color: colorScheme.secondary),
+                    selectedIconTheme: IconThemeData(color: colorScheme.secondary),
+                ),
+                items: const <SidebarXItem>[
+                  SidebarXItem(icon: Icons.home_outlined, label: 'Home'),
+                  SidebarXItem(icon: Icons.emoji_objects_sharp, label: 'Projects'),
+                  SidebarXItem(icon: Icons.person_search_rounded, label: 'Employee'),
+                ],
+                footerItems: <SidebarXItem>[
+                  SidebarXItem(icon: Icons.logout, label: 'Log Out', onTap: (){
+                    authBloc.add(LogOut());
+                  }),
+                ],
               ),
-              const Spacer(),
-              const Spacer(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: HomePageContent(
+                controller: _controller,
+              ),
+            ),),
             ],
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: CommonButton(
-              onPressed: () {
-                authBloc.add(LogOut());
-              },
-              text: 'Logout',
-              isRedText: true,
-              isLoading: state is AuthLoading,
-              loadingText: 'Logging out...'),
         );
+      }
+    );
+  }
+}
+
+class HomePageContent extends StatelessWidget {
+  const HomePageContent({
+    super.key,
+    required this.controller,
+  });
+
+  final SidebarXController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (BuildContext context, Widget? child) {
+        switch (controller.selectedIndex) {
+          case 0:
+            return const HomeTab();
+          case 1:
+            return const ProjectsTab();
+          case 2:
+            return const EmployeeTab();
+          default:
+            return const HomeTab();
+        }
       },
     );
   }
