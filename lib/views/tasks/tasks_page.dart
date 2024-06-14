@@ -1,50 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../models/employee.dart';
-import '../../models/project.dart';
 import '../../models/task.dart';
 import '../global_widgets/widget_helper.dart';
 
-final List<Task> tasks = <Task>[
-  Task(
-      id: 1,
-      task: 'QR Page',
-      status: 'in_progress',
-      time: '10',
-      project: Project(id: 1, name: 'VGro'),
-      employee: Employee(id: 1, name: 'Gokulnath'),
-      createdTime: '23:04:2024 11:00 AM'),
-  Task(
-      id: 1,
-      task: 'QR Page',
-      status: 'in_progress',
-      time: '10',
-      project: Project(id: 1, name: 'VGro'),
-      employee: Employee(id: 1, name: 'Gokulnath'),
-      createdTime: '23:04:2024 11:00 AM'),
-  Task(
-      id: 1,
-      task: 'QR Page',
-      status: 'in_progress',
-      time: '10',
-      project: Project(id: 1, name: 'VGro'),
-      employee: Employee(id: 1, name: 'Gokulnath'),
-      createdTime: '23:04:2024 11:00 AM'),
-  Task(
-      id: 1,
-      task: 'QR Page',
-      status: 'in_progress',
-      time: '10',
-      project: Project(id: 1, name: 'VGro'),
-      employee: Employee(id: 1, name: 'Gokulnath'),
-      createdTime: '23:04:2024 11:00 AM'),
-];
-
 class TasksPage extends StatelessWidget {
-  const TasksPage({super.key, this.isProject = false, required this.title});
+  const TasksPage({super.key, this.isProject = false, required this.title, required this.tasks});
   final bool isProject;
   final String title;
+  final List<Task>? tasks;
 
   @override
   Widget build(BuildContext context) {
@@ -103,41 +66,41 @@ class TasksPage extends StatelessWidget {
               ],
               rows: <DataRow>[
                 ...List<DataRow>.generate(
-                    tasks.length,
+                    tasks?.length ?? 0,
                         (int index) => DataRow(
                       cells: <DataCell>[
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(isProject ? tasks[index].employee?.name ?? '':tasks[index].project?.name ?? '',
+                            child: Text(isProject ? (tasks?[index].employee?.name ?? ''):(tasks?[index].project?.name ?? ''),
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text('${tasks[index].task ?? 0}',
+                            child: Text('${tasks?[index].task ?? 0}',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text('${tasks[index].status ?? 0}',
+                            child: Text('${tasks?[index].status ?? 0}',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(tasks[index].time ?? '',
+                            child: Text(tasks?[index].time ?? '',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(tasks[index].time ?? '',
+                            child: Text(tasks?[index].time ?? '',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),

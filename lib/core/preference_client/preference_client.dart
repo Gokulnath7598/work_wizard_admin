@@ -30,7 +30,7 @@ class PreferencesClient {
   //****************************** user-access-token **************************//
   Future<Token?> getUserAccessToken() async {
     final String? tokenString = prefs.getString('token');
-    if (tokenString == null) {
+    if (tokenString == null || tokenString == '') {
       return null;
     }
     final Map<String, dynamic> accessToken = json.decode(tokenString) as Map<String, dynamic>;

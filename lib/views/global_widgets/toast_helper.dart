@@ -15,12 +15,13 @@ class ToastHelper {
 
   static void failureToast(
       {required BuildContext context, required String message}) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: const Duration(seconds: 2),
       backgroundColor: Colors.redAccent,
       content: Text(
         message,
-        style: const TextStyle(color: Colors.black),
+        style: textTheme.bodySmall?.copyWith(fontSize: 20),
       ),
     ));
   }
