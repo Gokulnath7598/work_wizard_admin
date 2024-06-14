@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/app_bloc/app_bloc.dart';
-import '../../models/projects.dart';
+import '../../models/project.dart';
 import '../global_widgets/widget_helper.dart';
 
 final List<Project> projects = <Project>[Project(id: 1, name: 'VGro'),Project(id: 1, name: 'Rise'),Project(id: 1, name: 'FinoBuddy')];
@@ -74,8 +74,8 @@ class _HomeTabState extends State<HomeTab> {
         ),
         const SizedBox(height: 20),
         Row(
-          children: [
-            ...List.generate(_selectedProjects.length, (int index) => Padding(
+          children: <Widget>[
+            ...List<Widget>.generate(_selectedProjects.length, (int index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: InkWell(
                 onTap: (){
@@ -112,7 +112,7 @@ class _HomeTabState extends State<HomeTab> {
         final ColorScheme colorScheme = Theme.of(context).colorScheme;
         final TextTheme textTheme = Theme.of(context).textTheme;
         return StatefulBuilder(
-          builder: (BuildContext context, setState) {
+          builder: (BuildContext context, void Function(void Function()) setState) {
             return AlertDialog(
               title: const Text('Select Working Projects'),
               content: SingleChildScrollView(
@@ -139,7 +139,7 @@ class _HomeTabState extends State<HomeTab> {
                   }).toList(),
                 ),
               ),
-              actions: [
+              actions: <Widget>[
                 TextButton(
                   child: const Text('OK'),
                   onPressed: () {

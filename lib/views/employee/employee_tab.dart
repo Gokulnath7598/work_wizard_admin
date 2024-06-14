@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/app_bloc/app_bloc.dart';
 import '../../models/employee.dart';
 import '../global_widgets/widget_helper.dart';
+import '../tasks/tasks_page.dart';
 
 final List<Employee> employee = <Employee>[
   Employee(id: 1, name: 'Gokul', completedTask: 10, activeTask: 20, lastUpdate: '23:04:2024 11:00 AM'),
@@ -45,40 +46,77 @@ class _EmployeeTabState extends State<EmployeeTab> {
             'Employee',
             style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp)),
         getSpace(20, 0),
-        Table(
-          border: TableBorder(horizontalInside: BorderSide(color: colorScheme.shadow)),
-          children: <TableRow>[
-            TableRow(
-                children: <Widget>[
-                  TableCell(child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text('Employee', style: textTheme.bodySmall?.copyWith(color: colorScheme.primary, fontSize: 5.sp)))),
-                  TableCell(child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text('Active Tasks', style: textTheme.bodySmall?.copyWith(color: colorScheme.primary, fontSize: 5.sp)))),
-                  TableCell(child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text('Completed Tasks', style: textTheme.bodySmall?.copyWith(color: colorScheme.primary, fontSize: 5.sp)))),
-                  TableCell(child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text('Last Update', style: textTheme.bodySmall?.copyWith(color: colorScheme.primary, fontSize: 5.sp)))),
-                ]),
-            ...List.generate(employee.length, (int index) => TableRow(
-              children: <Widget>[
-                TableCell(child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Text(employee[index].name ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 5.sp)))),
-                TableCell(child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Text('${employee[index].activeTask ?? 0}', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 5.sp)))),
-                TableCell(child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Text('${employee[index].completedTask ?? 0}', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 5.sp)))),
-                TableCell(child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Text(employee[index].lastUpdate ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 5.sp)))),
-              ],
-            )),
+        DataTable(
+          border: TableBorder(
+              horizontalInside: BorderSide(color: colorScheme.shadow)),
+          columns: <DataColumn>[
+            DataColumn(
+                label: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Text('Employe',
+                        style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.primary, fontSize: 5.sp)))),
+            DataColumn(
+                label: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Text('Active Tasks',
+                        style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.primary, fontSize: 5.sp)))),
+            DataColumn(
+                label: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Text('Completed Tasks',
+                        style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.primary, fontSize: 5.sp)))),
+            DataColumn(
+                label: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Text('Last Update',
+                        style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.primary, fontSize: 5.sp)))),
+          ],
+          rows: <DataRow>[
+            ...List<DataRow>.generate(
+                employee.length,
+                    (int index) => DataRow(
+                  onLongPress: (){
+                    Navigator.push(context, MaterialPageRoute<dynamic>(builder:  (_) => TasksPage(title: employee[index].name ?? '')));
+                  },
+                  cells: <DataCell>[
+                    DataCell(Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Text(employee[index].name ?? '',
+                            style: textTheme.bodySmall?.copyWith(
+                                color: colorScheme.secondary,
+                                fontSize: 5.sp)))),
+                    DataCell(Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Text('${employee[index].activeTask ?? 0}',
+                            style: textTheme.bodySmall?.copyWith(
+                                color: colorScheme.secondary,
+                                fontSize: 5.sp)))),
+                    DataCell(Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Text('${employee[index].completedTask ?? 0}',
+                            style: textTheme.bodySmall?.copyWith(
+                                color: colorScheme.secondary,
+                                fontSize: 5.sp)))),
+                    DataCell(Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Text(employee[index].lastUpdate ?? '',
+                            style: textTheme.bodySmall?.copyWith(
+                                color: colorScheme.secondary,
+                                fontSize: 5.sp)))),
+                  ],
+                ))
           ],
         )
       ],

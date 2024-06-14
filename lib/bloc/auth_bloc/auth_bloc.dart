@@ -37,14 +37,13 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
   FutureOr<void> _loginWithMicrosoft(
       LoginWithMicrosoft event, Emitter<AuthState> emit) async {
       emit(AuthLoading());
-      final provider = OAuthProvider('microsoft.com');
-      provider.setCustomParameters({
+      final OAuthProvider provider = OAuthProvider('microsoft.com');
+      provider.setCustomParameters(<String, String>{
         'tenant': AppConfig.shared.msTenantID,
       });
       final UserCredential credential = await FirebaseAuth.instance.signInWithPopup(provider);
       final User? user = credential.user;
-      print(user);
-      AppUser appUser = AppUser(id: 1, name: user?.displayName);
+      final AppUser appUser = AppUser(id: 1, name: user?.displayName);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       PreferencesClient(prefs: prefs).saveUser(appUser: appUser);
       // PreferencesClient(prefs: prefs).setUserAccessToken(token: credential.credential.accessToken);

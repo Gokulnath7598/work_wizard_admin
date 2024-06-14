@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, AuthState state) {
         return Scaffold(
           body: Row(
-            children: [
+            children: <Widget>[
               SidebarX(
                 controller: _controller,
                 extendedTheme: SidebarXTheme(
