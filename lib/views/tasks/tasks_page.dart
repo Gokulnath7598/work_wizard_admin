@@ -109,7 +109,7 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(tasks[index].project?.name ?? '',
+                            child: Text(isProject ? tasks[index].employee?.name ?? '':tasks[index].project?.name ?? '',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
