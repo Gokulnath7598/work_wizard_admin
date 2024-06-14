@@ -7,10 +7,10 @@ import '../models/token.dart';
 class AuthService extends ApiRepository {
 
 //************************************ log-in *********************************//
-  Future<Map<String, dynamic>?> loginWithPassword(
+  Future<Map<String, dynamic>?> loginWithMicrosoft(
       {Map<String, dynamic>? objToApi}) async {
     final Response<dynamic> res = await ApiRepository.apiClient.post(
-      '/user_management/employee/login',
+      '/user_management/auth',
       data: objToApi
     );
     return <String, dynamic>{'customer': AppUser.fromJson(res.data['employee'] as Map<String, dynamic>), 'token': Token.fromJson(res.data['token'] as Map<String, dynamic>)};
@@ -20,7 +20,7 @@ class AuthService extends ApiRepository {
   Future<Response<dynamic>> logOut(
       {Map<String, String>? headersToApi}) async {
     final Response<dynamic> res = await ApiRepository.apiClient.delete(
-      '/user_management/employee/logout',
+      '/user_management/logout',
       options: Options(headers: headersToApi)
     );
     return res;
