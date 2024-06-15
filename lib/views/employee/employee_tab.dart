@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../bloc/app_bloc/app_bloc.dart';
 import '../../bloc/employee_bloc/employee_bloc.dart';
 import '../global_widgets/widget_helper.dart';
 
@@ -13,13 +12,11 @@ class EmployeeTab extends StatefulWidget {
 }
 
 class _EmployeeTabState extends State<EmployeeTab> {
-  late final AppBloc appBloc;
   late final EmployeeBloc employeeBloc;
 
 
   @override
   void initState() {
-    appBloc = BlocProvider.of<AppBloc>(context);
     employeeBloc = BlocProvider.of<EmployeeBloc>(context);
     employeeBloc.add(GetEmployee());
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
@@ -39,13 +36,6 @@ class _EmployeeTabState extends State<EmployeeTab> {
         builder: (BuildContext context, EmployeeState state) {
         return ListView(
           children: <Widget>[
-            BlocBuilder<AppBloc, AppState>(
-                builder: (BuildContext context, AppState state) {
-                  return Text(
-                      'Hi, ${appBloc.stateData.user?.name ?? ''}',
-                      style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 8.sp, fontStyle: FontStyle.italic));
-                }),
-            getSpace(20, 0),
             Text(
                 'Employee',
                 style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp)),

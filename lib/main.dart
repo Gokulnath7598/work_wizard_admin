@@ -9,6 +9,7 @@ import 'app_config.dart';
 import 'bloc/app_bloc/app_bloc.dart';
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/employee_bloc/employee_bloc.dart';
+import 'bloc/home_bloc/home_bloc.dart';
 import 'bloc/projects_bloc/projects_bloc.dart';
 import 'core/base_bloc/base_bloc.dart';
 import 'firebase_options.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
     BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
     BlocProvider<ProjectsBloc>(create: (BuildContext context) => ProjectsBloc()),
     BlocProvider<EmployeeBloc>(create: (BuildContext context) => EmployeeBloc()),
+    BlocProvider<HomeBloc>(create: (BuildContext context) => HomeBloc()),
   ], child: const App()));
 }
 

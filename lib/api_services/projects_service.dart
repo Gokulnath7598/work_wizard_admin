@@ -19,7 +19,7 @@ class ProjectsService extends ApiRepository {
 //************************************ get ProjectTasks *********************************//
   Future<List<Task>> getProjectTasks(
       {Map<String, String>? headersToApi, Map<String, dynamic>? queryParams}) async {
-    final Response<dynamic> res = await ApiRepository.apiClient.delete(
+    final Response<dynamic> res = await ApiRepository.apiClient.get(
       '/task_management/tasks',
       queryParameters: queryParams,
       options: Options(headers: headersToApi)

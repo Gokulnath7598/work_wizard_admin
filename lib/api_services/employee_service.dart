@@ -20,7 +20,7 @@ class EmployeeService extends ApiRepository {
 //************************************ get EmployeeTasks *********************************//
   Future<List<Task>> getEmployeeTasks(
       {Map<String, String>? headersToApi, Map<String, dynamic>? queryParams}) async {
-    final Response<dynamic> res = await ApiRepository.apiClient.delete(
+    final Response<dynamic> res = await ApiRepository.apiClient.get(
       '/task_management/tasks',
       queryParameters: queryParams,
       options: Options(headers: headersToApi)

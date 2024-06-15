@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../bloc/app_bloc/app_bloc.dart';
 import '../../bloc/projects_bloc/projects_bloc.dart';
 import '../global_widgets/widget_helper.dart';
 
@@ -14,12 +13,10 @@ class ProjectsTab extends StatefulWidget {
 }
 
 class _ProjectsTabState extends State<ProjectsTab> {
-  late final AppBloc appBloc;
   late final ProjectsBloc projectsBloc;
 
   @override
   void initState() {
-    appBloc = BlocProvider.of<AppBloc>(context);
     projectsBloc = BlocProvider.of<ProjectsBloc>(context);
     projectsBloc.add(GetProjects());
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
@@ -39,15 +36,6 @@ class _ProjectsTabState extends State<ProjectsTab> {
         builder: (BuildContext context, ProjectsState state) {
         return ListView(
           children: <Widget>[
-            BlocBuilder<AppBloc, AppState>(
-                builder: (BuildContext context, AppState state) {
-              return Text('Hi, ${appBloc.stateData.user?.name ?? ''}',
-                  style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.secondary,
-                      fontSize: 8.sp,
-                      fontStyle: FontStyle.italic));
-            }),
-            getSpace(20, 0),
             Text('Projects',
                 style: textTheme.bodySmall
                     ?.copyWith(color: colorScheme.secondary, fontSize: 6.sp)),
