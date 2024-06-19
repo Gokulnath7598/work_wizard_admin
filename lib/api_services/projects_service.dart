@@ -1,26 +1,26 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import '../core/api_repository/api_repository.dart';
-import '../models/project.dart';
+import '../models/app_user.dart';
 import '../models/task.dart';
 
 class ProjectsService extends ApiRepository {
 
 //************************************ get Projects *********************************//
-  Future<List<Project>> getProjects(
-      {Map<String, String>? headersToApi}) async {
+  Future<AppUser> getProjects(
+      {Map<String, dynamic>? headersToApi}) async {
     final Response<dynamic> res = await ApiRepository.apiClient.get(
-      '/project_management/projects',
+        '/user/users',
         options: Options(headers: headersToApi)
     );
-    return (res.data['projects'] as List<dynamic>).map((dynamic e) => Project.fromJson(e as Map<String, dynamic>)).toList();
+    return AppUser.fromJson(res.data['user'] as Map<String, dynamic>);
   }
 
 //************************************ get ProjectTasks *********************************//
   Future<List<Task>> getProjectTasks(
-      {Map<String, String>? headersToApi, Map<String, dynamic>? queryParams}) async {
+      {Map<String, dynamic>? headersToApi, Map<String, dynamic>? queryParams}) async {
     final Response<dynamic> res = await ApiRepository.apiClient.get(
-      '/task_management/tasks',
+      '/admin/tasks',
       queryParameters: queryParams,
       options: Options(headers: headersToApi)
     );

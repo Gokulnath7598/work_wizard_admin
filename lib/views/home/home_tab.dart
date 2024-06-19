@@ -95,7 +95,7 @@ class _HomeTabState extends State<HomeTab> {
                             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                             child: Row(
                               children: <Widget>[
-                                Text(appBloc.stateData.user?.workingProjects?[index].name ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 5.sp)),
+                                Text(appBloc.stateData.user?.workingProjects?[index].projectName ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 5.sp)),
                               ],
                             ),
                           )),
@@ -159,7 +159,7 @@ class _AllProjectsDropDownState extends State<AllProjectsDropDown> {
                       children: homeBloc.getAllProjectsSuccess.allProject!.map((Project project) {
                         return CheckboxListTile(
                           value: selectedProjectIDs.contains(project.id),
-                          title: Text(project.name ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.shadow, fontSize: 5.sp)),
+                          title: Text(project.projectName ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.shadow, fontSize: 5.sp)),
                           onChanged: (bool? value) {
                             if (value != null) {
                               setState(() {

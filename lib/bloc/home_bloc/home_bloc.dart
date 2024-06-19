@@ -33,19 +33,11 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Token? token =
     await PreferencesClient(prefs: prefs).getUserAccessToken();
-    final Map<String, String> headersToApi =
+    final Map<String, dynamic> headersToApi =
     await Utils.getHeader(token?.accessToken);
 
-    // Remove this
-    final List<Project> allProject = <Project>[
-      Project(id: 1, name: 'VGro'),
-      Project(id: 2, name: 'FinoBuddy'),
-      Project(id: 3, name: 'Rise')
-    ];
-
-    // UnComment this
-    // final List<Project> allProject =
-    // await homeService.getAllProjects(headersToApi: headersToApi);
+    final List<Project> allProject =
+    await homeService.getAllProjects(headersToApi: headersToApi);
     emit(getAllProjectsSuccess..allProject = allProject);
   }
 
@@ -53,60 +45,37 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
       GetProfile event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
 
-    // Remove this
-    final AppUser appUser = AppUser(id: 1, name: 'Gokulnath Get',
-        workingProjects: <Project>[
-          Project(id: 1, name: 'VGro'),
-          // Project(id: 2, name: 'FinoBuddy'),
-          Project(id: 3, name: 'Rise')
-        ]);
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    PreferencesClient(prefs: prefs).saveUser(appUser: appUser);
-    emit(getProfileSuccess..user = appUser);
 
-    // Uncomment this
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // final Token? token =
-    // await PreferencesClient(prefs: prefs).getUserAccessToken();
-    // final Map<String, String> headersToApi =
-    // await Utils.getHeader(token?.accessToken);
-    // final AppUser user =
-    // await homeService.getProfile(headersToApi: headersToApi);
-    // PreferencesClient(prefs: prefs).saveUser(appUser: user);
-    // emit(getProfileSuccess..user = user);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Token? token =
+    await PreferencesClient(prefs: prefs).getUserAccessToken();
+    final Map<String, dynamic> headersToApi =
+    await Utils.getHeader(token?.accessToken);
+    final AppUser user =
+    await homeService.getProfile(headersToApi: headersToApi);
+    PreferencesClient(prefs: prefs).saveUser(appUser: user);
+    emit(getProfileSuccess..user = user);
   }
 
   FutureOr<void> _updateProfile(
       UpdateProfile event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
 
-    // Remove this
-    final AppUser appUser = AppUser(id: 1, name: 'Gokulnath Put',
-        workingProjects: <Project>[
-          Project(id: 1, name: 'VGro'),
-          Project(id: 2, name: 'FinoBuddy'),
-          Project(id: 3, name: 'Rise')
-        ]);
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    PreferencesClient(prefs: prefs).saveUser(appUser: appUser);
-    emit(updateProfileSuccess..user = appUser);
+    final Token? token =
+    await PreferencesClient(prefs: prefs).getUserAccessToken();
+    final Map<String, dynamic> headersToApi =
+    await Utils.getHeader(token?.accessToken);
+    final Map<String, dynamic> objToApi =
+    <String, dynamic>{
+      'user': <String, List<int>?>{
+        'working_project_ids': event.projectIDs}
+    };
 
-    // Uncomment this
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // final Token? token =
-    // await PreferencesClient(prefs: prefs).getUserAccessToken();
-    // final Map<String, String> headersToApi =
-    // await Utils.getHeader(token?.accessToken);
-    // final Map<String, dynamic> objToApi =
-    // <String, dynamic>{
-    //   'user': <String, List<int>?>{
-    //     'working_project_ids': event.projectIDs}
-    // };
-    //
-    // final AppUser user =
-    // await homeService.updateProfile(headersToApi: headersToApi, objToApi: objToApi);
-    // PreferencesClient(prefs: prefs).saveUser(appUser: user);
-    // emit(updateProfileSuccess..user = user);
+    final AppUser user =
+    await homeService.updateProfile(headersToApi: headersToApi, objToApi: objToApi);
+    PreferencesClient(prefs: prefs).saveUser(appUser: user);
+    emit(updateProfileSuccess..user = user);
   }
 
   @override

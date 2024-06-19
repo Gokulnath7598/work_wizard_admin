@@ -8,7 +8,6 @@ import '../../core/base_bloc/base_bloc.dart';
 import '../../core/preference_client/preference_client.dart';
 import '../../core/utils/utils.dart';
 import '../../models/employee.dart';
-import '../../models/project.dart';
 import '../../models/task.dart';
 import '../../models/token.dart';
 import '../../views/global_widgets/toast_helper.dart';
@@ -32,22 +31,11 @@ class EmployeeBloc extends BaseBloc<EmployeeEvent, EmployeeState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Token? token =
         await PreferencesClient(prefs: prefs).getUserAccessToken();
-    final Map<String, String> headersToApi =
+    final Map<String, dynamic> headersToApi =
         await Utils.getHeader(token?.accessToken);
 
-    // Remove this
-    final List<Employee> employee = <Employee>[
-      Employee(
-          id: 1,
-          name: 'Gokul',
-          completedTask: 10,
-          activeTask: 20,
-          lastUpdate: '23:04:2024 11:00 AM')
-    ];
-
-    // UnComment this
-    // final List<Employee> employee =
-    // await projectsService.getEmployee(headersToApi: headersToApi);
+    final List<Employee> employee =
+    await projectsService.getEmployee(headersToApi: headersToApi);
     emit(getEmployeeSuccess..employee = employee);
   }
 
@@ -57,25 +45,13 @@ class EmployeeBloc extends BaseBloc<EmployeeEvent, EmployeeState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Token? token =
         await PreferencesClient(prefs: prefs).getUserAccessToken();
-    final Map<String, String> headersToApi =
+    final Map<String, dynamic> headersToApi =
         await Utils.getHeader(token?.accessToken);
     final Map<String, dynamic> queryParams = <String, dynamic>{
-      'employee_id': event.employee?.id
+      'user_id': event.employee?.id
     };
-    // remove this
-    final List<Task> tasks = <Task>[
-      Task(
-          id: 1,
-          task: 'QR Page',
-          status: 'in_progress',
-          time: '10',
-          project: Project(id: 1, name: 'VGro'),
-          employee: Employee(id: 1, name: 'Gokulnath'),
-          createdTime: '23:04:2024 11:00 AM')
-    ];
-    // UnComment this
-    //   final List<Task> tasks =
-    //   await projectsService.getEmployeeTasks(headersToApi: headersToApi, queryParams: queryParams);
+      final List<Task> tasks =
+      await projectsService.getEmployeeTasks(headersToApi: headersToApi, queryParams: queryParams);
     emit(getEmployeeTasksSuccess
       ..tasks = tasks
       ..employee = event.employee);

@@ -2,23 +2,23 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import '../core/api_repository/api_repository.dart';
 import '../models/app_user.dart';
-import '../models/token.dart';
 
 class AuthService extends ApiRepository {
 
 //************************************ log-in *********************************//
-  Future<Map<String, dynamic>?> loginWithMicrosoft(
-      {Map<String, dynamic>? objToApi}) async {
-    final Response<dynamic> res = await ApiRepository.apiClient.post(
-      '/user_management/auth',
-      data: objToApi
+  Future<AppUser> loginWithMicrosoft(
+      {Map<String, dynamic>? headersToApi}) async {
+    final Response<dynamic> res = await ApiRepository.apiClient.get(
+      '/user/users',
+      options: Options(
+        headers: headersToApi)
     );
-    return <String, dynamic>{'customer': AppUser.fromJson(res.data['employee'] as Map<String, dynamic>), 'token': Token.fromJson(res.data['token'] as Map<String, dynamic>)};
+    return AppUser.fromJson(res.data['user'] as Map<String, dynamic>);
   }
 
 //************************************ log-out *********************************//
   Future<Response<dynamic>> logOut(
-      {Map<String, String>? headersToApi}) async {
+      {Map<String, dynamic>? headersToApi}) async {
     final Response<dynamic> res = await ApiRepository.apiClient.delete(
       '/user_management/logout',
       options: Options(headers: headersToApi)

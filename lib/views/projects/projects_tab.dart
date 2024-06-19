@@ -84,7 +84,7 @@ class _ProjectsTabState extends State<ProjectsTab> {
                             DataCell(Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 20),
-                                child: Text(projectsBloc.getProjectsSuccess.projects?[index].name ?? '',
+                                child: Text(projectsBloc.getProjectsSuccess.projects?[index].projectName ?? '',
                                     style: textTheme.bodySmall?.copyWith(
                                         color: colorScheme.secondary,
                                         fontSize: 5.sp)))),

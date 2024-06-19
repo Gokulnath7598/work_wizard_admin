@@ -7,7 +7,7 @@ import '../../api_services/projects_service.dart';
 import '../../core/base_bloc/base_bloc.dart';
 import '../../core/preference_client/preference_client.dart';
 import '../../core/utils/utils.dart';
-import '../../models/employee.dart';
+import '../../models/app_user.dart';
 import '../../models/project.dart';
 import '../../models/task.dart';
 import '../../models/token.dart';
@@ -32,23 +32,11 @@ class ProjectsBloc extends BaseBloc<ProjectsEvent, ProjectsState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Token? token =
         await PreferencesClient(prefs: prefs).getUserAccessToken();
-    final Map<String, String> headersToApi =
+    final Map<String, dynamic> headersToApi =
         await Utils.getHeader(token?.accessToken);
-
-    // Remove this
-    final List<Project> projects = <Project>[
-      Project(
-          id: 1,
-          name: 'VGro',
-          completedTask: 10,
-          activeTask: 20,
-          lastUpdate: '23:04:2024 11:00 AM')
-    ];
-
-    // UnComment this
-    // final List<Project> projects =
-    // await projectsService.getProjects(headersToApi: headersToApi);
-    emit(getProjectsSuccess..projects = projects);
+    final AppUser user =
+    await projectsService.getProjects(headersToApi: headersToApi);
+    emit(getProjectsSuccess..projects = user.workingProjects);
   }
 
   FutureOr<void> _getProjectTasks(
@@ -57,25 +45,13 @@ class ProjectsBloc extends BaseBloc<ProjectsEvent, ProjectsState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Token? token =
         await PreferencesClient(prefs: prefs).getUserAccessToken();
-    final Map<String, String> headersToApi =
+    final Map<String, dynamic> headersToApi =
         await Utils.getHeader(token?.accessToken);
     final Map<String, dynamic> queryParams = <String, dynamic>{
       'project_id': event.project?.id
     };
-    // remove this
-    final List<Task> tasks = <Task>[
-      Task(
-          id: 1,
-          task: 'QR Page',
-          status: 'in_progress',
-          time: '10',
-          project: Project(id: 1, name: 'VGro'),
-          employee: Employee(id: 1, name: 'Gokulnath'),
-          createdTime: '23:04:2024 11:00 AM')
-    ];
-    // UnComment this
-    //   final List<Task> tasks =
-    //   await projectsService.getProjectTasks(headersToApi: headersToApi, queryParams: queryParams);
+      final List<Task> tasks =
+      await projectsService.getProjectTasks(headersToApi: headersToApi, queryParams: queryParams);
     emit(getProjectTasksSuccess
       ..tasks = tasks
       ..project = event.project);
@@ -108,7 +84,7 @@ Future<void> onProjectsBlocChange(
           context,
           MaterialPageRoute<dynamic>(
             builder: (_) => TasksPage(
-                title: currentState.project?.name ?? '',
+                title: currentState.project?.projectName ?? '',
                 isProject: true,
                 tasks: currentState.tasks),
           ));
