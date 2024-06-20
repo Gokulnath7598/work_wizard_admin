@@ -1,41 +1,47 @@
 import 'models.dart';
 
-class Task {
+class ProjectTask {
 
-  Task({
+  ProjectTask({
     this.id,
+    this.userID,
     this.task,
     this.status,
     this.time,
     this.createdTime,
-    this.employee,
+    // this.employee,
     this.project
   });
 
-  factory Task.fromJson(Map<String, dynamic> json) => Task(
-    id: json['id'] != null ? int.parse(json['id'].toString()) : null,
-    task: json['task'].toString(),
-    status: json['status'].toString(),
-    time: json['time'].toString(),
-    createdTime: json['created_time'].toString(),
-    employee: Employee.fromJson(json['employee'] as Map<String, dynamic>),
-    project: Project.fromJson(json['project'] as Map<String, dynamic>),
+  factory ProjectTask.fromJson(Map<String, dynamic>? json) => ProjectTask(
+    id: json?['id'] != null ? int.parse(json!['id'].toString()) : null,
+    userID: json?['user_id'] != null ? int.parse(json!['user_id'].toString()) : null,
+    task: json?['task_description'].toString(),
+    status: json?['status'].toString(),
+    time: json?['effort'].toString(),
+    createdTime: json?['created_time'].toString(),
+    // employee: Employee.fromJson(json?['employee'] as Map<String, dynamic>),
+    project: Project.fromJson(json?['project'] as Map<String, dynamic>),
   );
+
   int? id;
+  int? userID;
   String? task;
   String? status;
   String? time;
   String? createdTime;
-  Employee? employee;
+  // Employee? employee;
   Project? project;
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-    'id': id,
-    'task': task,
-    'status': status,
-    'time': time,
-    'created_time': createdTime,
-    'employee': employee,
-    'project': project
-  };
-}
+  Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = <String, dynamic>{};
+  data['id'] = id;
+  data['user_id'] = userID;
+  data['task_description'] = task;
+  data['status'] = status;
+  data['effort'] = time;
+  // data['employee'] = employee;
+  data['project'] = project;
+  return data;
+  }
+  }

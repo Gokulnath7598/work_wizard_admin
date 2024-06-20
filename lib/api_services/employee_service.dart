@@ -17,13 +17,13 @@ class EmployeeService extends ApiRepository {
   }
 
 //************************************ get EmployeeTasks *********************************//
-  Future<List<Task>> getEmployeeTasks(
+  Future<List<ProjectTask>> getEmployeeTasks(
       {Map<String, dynamic>? headersToApi, Map<String, dynamic>? queryParams}) async {
     final Response<dynamic> res = await ApiRepository.apiClient.get(
       '/admin/tasks',
       queryParameters: queryParams,
       options: Options(headers: headersToApi)
     );
-    return (res.data['tasks'] as List<dynamic>).map((dynamic e) => Task.fromJson(e as Map<String, dynamic>)).toList();
+    return (res.data['tasks'] as List<dynamic>).map((dynamic e) => ProjectTask.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

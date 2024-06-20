@@ -7,7 +7,7 @@ class TasksPage extends StatelessWidget {
   const TasksPage({super.key, this.isProject = false, required this.title, required this.tasks});
   final bool isProject;
   final String title;
-  final List<Task>? tasks;
+  final List<ProjectTask>? tasks;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class TasksPage extends StatelessWidget {
                     label: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
-                        child: Text('Estimate',
+                        child: Text('Estimated Time',
                             style: textTheme.bodySmall?.copyWith(
                                 color: colorScheme.primary, fontSize: 5.sp)))),
                 DataColumn(
@@ -72,7 +72,7 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(isProject ? (tasks?[index].employee?.name ?? ''):(tasks?[index].project?.projectName ?? ''),
+                            child: Text(isProject ? (tasks?[index].project?.projectName ?? ''):(tasks?[index].project?.projectName ?? ''),
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
@@ -86,24 +86,28 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text('${tasks?[index].status ?? 'unknown'}',
+                            child: Text(tasks?[index].status ?? 'Un-Known',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(tasks?[index].time ?? '',
+                            child: tasks?[index].status == 'in-progress' ?
+                            Text(tasks?[index].time ?? '',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
-                                    fontSize: 5.sp)))),
+                                    fontSize: 5.sp))
+                        : emptyBox())),
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(tasks?[index].time ?? '',
+                            child: tasks?[index].status == 'completed'
+                            ? Text(tasks?[index].time ?? '',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
-                                    fontSize: 5.sp)))),
+                                    fontSize: 5.sp))
+                        : emptyBox())),
                       ],
                     ))
               ],

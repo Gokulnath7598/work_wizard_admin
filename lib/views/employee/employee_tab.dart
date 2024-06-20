@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import '../../bloc/employee_bloc/employee_bloc.dart';
 import '../global_widgets/widget_helper.dart';
 
@@ -34,7 +35,9 @@ class _EmployeeTabState extends State<EmployeeTab> {
 
     return BlocBuilder<EmployeeBloc, EmployeeState>(
         builder: (BuildContext context, EmployeeState state) {
-        return ListView(
+        return state is EmployeeLoading ?
+        Lottie.asset('assets/time_loader_blue_500.json')
+            : ListView(
           children: <Widget>[
             Text(
                 'Employee',
@@ -48,7 +51,7 @@ class _EmployeeTabState extends State<EmployeeTab> {
                     label: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
-                        child: Text('Employe',
+                        child: Text('Employee',
                             style: textTheme.bodySmall?.copyWith(
                                 color: colorScheme.primary, fontSize: 5.sp)))),
                 DataColumn(

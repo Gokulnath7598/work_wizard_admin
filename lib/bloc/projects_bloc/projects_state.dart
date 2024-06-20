@@ -17,6 +17,6 @@ class GetProjectsSuccess extends ProjectsState {
 class GetProjectTasksSuccess extends ProjectsState {
   GetProjectTasksSuccess({this.tasks, this.project});
 
-  List<Task>? tasks;
+  List<ProjectTask>? tasks;
   Project? project;
 }

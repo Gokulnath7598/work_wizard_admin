@@ -50,7 +50,7 @@ class EmployeeBloc extends BaseBloc<EmployeeEvent, EmployeeState> {
     final Map<String, dynamic> queryParams = <String, dynamic>{
       'user_id': event.employee?.id
     };
-      final List<Task> tasks =
+      final List<ProjectTask> tasks =
       await projectsService.getEmployeeTasks(headersToApi: headersToApi, queryParams: queryParams);
     emit(getEmployeeTasksSuccess
       ..tasks = tasks

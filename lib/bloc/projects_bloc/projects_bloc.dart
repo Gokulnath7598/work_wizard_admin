@@ -50,7 +50,7 @@ class ProjectsBloc extends BaseBloc<ProjectsEvent, ProjectsState> {
     final Map<String, dynamic> queryParams = <String, dynamic>{
       'project_id': event.project?.id
     };
-      final List<Task> tasks =
+      final List<ProjectTask> tasks =
       await projectsService.getProjectTasks(headersToApi: headersToApi, queryParams: queryParams);
     emit(getProjectTasksSuccess
       ..tasks = tasks

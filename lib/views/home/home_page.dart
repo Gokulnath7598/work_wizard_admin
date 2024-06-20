@@ -42,57 +42,57 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (BuildContext context, AuthState state) {
         return Scaffold(
-          body: Row(
-            children: <Widget>[
-              SidebarX(
-                controller: _controller,
-                extendedTheme: SidebarXTheme(
-                    textStyle: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 6.sp),
-                    selectedTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp),
-                    hoverTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp, letterSpacing: 2.sp),
-                    iconTheme: IconThemeData(color: colorScheme.scrim),
-                    hoverIconTheme: IconThemeData(color: colorScheme.secondary),
-                    selectedIconTheme: IconThemeData(color: colorScheme.secondary),
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: colorScheme.surface,
-                    ),
-                    itemTextPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 10)
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Lottie.asset(
+                  'assets/waves.json',
+                  fit: BoxFit.cover,
                 ),
-                theme: SidebarXTheme(
-                  iconTheme: IconThemeData(color: colorScheme.scrim),
-                  hoverIconTheme: IconThemeData(color: colorScheme.secondary),
-                  selectedIconTheme: IconThemeData(color: colorScheme.secondary),
-                ),
-                items: const <SidebarXItem>[
-                  SidebarXItem(icon: Icons.home_outlined, label: 'Home'),
-                  SidebarXItem(icon: Icons.emoji_objects_sharp, label: 'Projects'),
-                  SidebarXItem(icon: Icons.person_search_rounded, label: 'Employee'),
-                ],
-                footerItems: <SidebarXItem>[
-                  SidebarXItem(icon: Icons.logout, label: 'Log Out', onTap: (){
-                    authBloc.add(LogOut());
-                  }),
-                ],
               ),
-              Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      // child: Image.asset(AppAssets.homeBG, width: 150.sp,),
-                      child: Lottie.asset('assets/waves.json', width: 150.sp,),
+              Row(
+                children: <Widget>[
+                  SidebarX(
+                    controller: _controller,
+                    extendedTheme: SidebarXTheme(
+                        textStyle: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 6.sp),
+                        selectedTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp),
+                        hoverTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp, letterSpacing: 0.5.sp),
+                        iconTheme: IconThemeData(color: colorScheme.scrim),
+                        hoverIconTheme: IconThemeData(color: colorScheme.secondary),
+                        selectedIconTheme: IconThemeData(color: colorScheme.secondary),
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surface,
+                        ),
+                        itemTextPadding: const EdgeInsets.symmetric(horizontal: 10),
+                        selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 10)
                     ),
-                    Padding(
+                    theme: SidebarXTheme(
+                      iconTheme: IconThemeData(color: colorScheme.scrim),
+                      hoverIconTheme: IconThemeData(color: colorScheme.secondary),
+                      selectedIconTheme: IconThemeData(color: colorScheme.secondary),
+                    ),
+                    items: const <SidebarXItem>[
+                      SidebarXItem(icon: Icons.home_outlined, label: 'Home'),
+                      SidebarXItem(icon: Icons.emoji_objects_sharp, label: 'Projects'),
+                      SidebarXItem(icon: Icons.person_search_rounded, label: 'Employee'),
+                    ],
+                    footerItems: <SidebarXItem>[
+                      SidebarXItem(icon: Icons.logout, label: 'Log Out', onTap: (){
+                        authBloc.add(LogOut());
+                      }),
+                    ],
+                  ),
+                  Expanded(
+                    child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: HomePageContent(
                         controller: _controller,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

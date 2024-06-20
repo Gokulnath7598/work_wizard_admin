@@ -17,6 +17,6 @@ class GetEmployeeSuccess extends EmployeeState {
 class GetEmployeeTasksSuccess extends EmployeeState {
   GetEmployeeTasksSuccess({this.tasks, this.employee});
 
-  List<Task>? tasks;
+  List<ProjectTask>? tasks;
   Employee? employee;
 }
