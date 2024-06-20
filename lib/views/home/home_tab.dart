@@ -46,7 +46,7 @@ class _HomeTabState extends State<HomeTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                    'Hi, ${appBloc.stateData.user?.name ?? ''}',
+                    'Hi, ${appBloc.stateData.user?.name ?? 'User'}',
                     style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 8.sp, fontStyle: FontStyle.italic)),
                 getSpace(20, 0),
                 Text(
@@ -72,7 +72,7 @@ class _HomeTabState extends State<HomeTab> {
                               borderRadius: const BorderRadius.all(Radius.circular(8)),
                               borderSide:
                               BorderSide(width: 0.9, color: colorScheme.secondary)),
-                          labelText: 'Working Projects',
+                          labelText: 'Select Working Projects',
                           suffixIcon: const Icon(Icons.arrow_drop_down),
                           labelStyle: textTheme.bodySmall?.copyWith(color: colorScheme.shadow, fontSize: 5.sp)
                         ),
@@ -82,26 +82,37 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: <Widget>[
-                    ...List<Widget>.generate(appBloc.stateData.user?.workingProjects?.length ?? 0, (int index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: colorScheme.secondary,
-                            borderRadius: BorderRadius.circular(8)
+                SizedBox(
+                  width: 150.sp,
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: List<Widget>.generate(
+                      appBloc.stateData.user?.workingProjects?.length ?? 0,
+                          (int index) => Container(
+                        decoration: BoxDecoration(
+                          color: colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                appBloc.stateData.user?.workingProjects?[index].projectName ?? '',
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.scrim,
+                                  fontSize: 5.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Text(appBloc.stateData.user?.workingProjects?[index].projectName ?? '', style: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 5.sp)),
-                              ],
-                            ),
-                          )),
-                    )),
-                  ],
-                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             );
           }

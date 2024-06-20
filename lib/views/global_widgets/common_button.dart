@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../core/utils/app_assets.dart';
 import 'widget_helper.dart';
@@ -87,7 +88,8 @@ class MSLoginButton extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Image.asset(AppAssets.ms, height: 24),
+                    // Image.asset(AppAssets.ms, height: 24),
+                    Lottie.asset('assets/microsoft.json', height: 30),
                     getSpace(0, 8),
                     Text(text,
                         style: textTheme.bodySmall?.copyWith(

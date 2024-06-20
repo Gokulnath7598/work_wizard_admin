@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sidebarx/sidebarx.dart';
 import '../../bloc/app_bloc/app_bloc.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../core/utils/app_assets.dart';
 import '../employee/employee_tab.dart';
 import '../projects/projects_tab.dart';
 import 'home_tab.dart';
@@ -45,23 +47,23 @@ class _HomePageState extends State<HomePage> {
               SidebarX(
                 controller: _controller,
                 extendedTheme: SidebarXTheme(
-                  textStyle: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 6.sp),
-                  selectedTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp),
-                  hoverTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 7.sp, fontWeight: FontWeight.w600),
-                  iconTheme: IconThemeData(color: colorScheme.scrim),
-                  hoverIconTheme: IconThemeData(color: colorScheme.secondary),
-                  selectedIconTheme: IconThemeData(color: colorScheme.secondary),
-                  width: 200,
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                  ),
-                  itemTextPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 10)
-                ),
-                theme: SidebarXTheme(
+                    textStyle: textTheme.bodySmall?.copyWith(color: colorScheme.scrim, fontSize: 6.sp),
+                    selectedTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp),
+                    hoverTextStyle: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontSize: 6.sp, letterSpacing: 2.sp),
                     iconTheme: IconThemeData(color: colorScheme.scrim),
                     hoverIconTheme: IconThemeData(color: colorScheme.secondary),
                     selectedIconTheme: IconThemeData(color: colorScheme.secondary),
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: colorScheme.surface,
+                    ),
+                    itemTextPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 10)
+                ),
+                theme: SidebarXTheme(
+                  iconTheme: IconThemeData(color: colorScheme.scrim),
+                  hoverIconTheme: IconThemeData(color: colorScheme.secondary),
+                  selectedIconTheme: IconThemeData(color: colorScheme.secondary),
                 ),
                 items: const <SidebarXItem>[
                   SidebarXItem(icon: Icons.home_outlined, label: 'Home'),
@@ -74,13 +76,24 @@ class _HomePageState extends State<HomePage> {
                   }),
                 ],
               ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: HomePageContent(
-                controller: _controller,
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      // child: Image.asset(AppAssets.homeBG, width: 150.sp,),
+                      child: Lottie.asset('assets/waves.json', width: 150.sp,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: HomePageContent(
+                        controller: _controller,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),),
             ],
           ),
         );

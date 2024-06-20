@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/app_bloc/app_bloc.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../core/utils/app_assets.dart';
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       body: Container(
+        width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppAssets.loginBG),
@@ -44,12 +46,12 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             const Spacer(),
-            Text('WORK WIZARD', style: textTheme.titleLarge?.copyWith(color: colorScheme.secondary, letterSpacing: 50, fontWeight: FontWeight.w900)),
+            Text('WORK WIZARD', style: textTheme.titleLarge?.copyWith(color: colorScheme.secondary, letterSpacing: 50, fontWeight: FontWeight.w900, fontSize: 25.sp)),
             const Spacer(),
             Row(
               children: <Widget>[
                 Image.asset(AppAssets.arrowLeft, height: 20),
-                Expanded(child: Text('user friendly ET Sheet reminder and tracker', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary), textAlign: TextAlign.center)),
+                Expanded(child: Text('user friendly ET Sheet reminder and tracker', style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary, fontFamily: 'Neo-Italic'), textAlign: TextAlign.center)),
                 Image.asset(AppAssets.arrowRight, height: 20),
               ],
             ),

@@ -86,7 +86,7 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text('${tasks?[index].status ?? 0}',
+                            child: Text('${tasks?[index].status ?? 'unknown'}',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),

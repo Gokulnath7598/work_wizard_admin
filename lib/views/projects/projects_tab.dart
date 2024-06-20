@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import '../../bloc/projects_bloc/projects_bloc.dart';
 import '../global_widgets/widget_helper.dart';
 
@@ -34,7 +35,9 @@ class _ProjectsTabState extends State<ProjectsTab> {
 
     return BlocBuilder<ProjectsBloc, ProjectsState>(
         builder: (BuildContext context, ProjectsState state) {
-        return ListView(
+        return state is ProjectsLoading ?
+        Lottie.asset('assets/time_loader_blue_500.json')
+          : ListView(
           children: <Widget>[
             Text('Projects',
                 style: textTheme.bodySmall

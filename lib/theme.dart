@@ -11,7 +11,7 @@ final ThemeData themeData = ThemeData(
       scrim: const Color(0xFFFFFFFF),
     seedColor: const Color(0xFF00A4EF),),
   textTheme: TextTheme(
-    titleLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.sp, color: const Color(0xFF442C2E)),
+    titleLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.sp, color: const Color(0xFF442C2E), fontFamily: 'Inria-Bold'),
     titleMedium: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.sp, color: const Color(0xFF442C2E)),
     titleSmall: TextStyle(fontWeight: FontWeight.w700, fontSize: 16.sp, color: const Color(0xFF442C2E)),
     bodyLarge: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.sp, color: const Color(0xFF442C2E)),
