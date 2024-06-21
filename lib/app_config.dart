@@ -11,7 +11,7 @@ class AppConfig {
         msTenantID: 'cf77e474-cc9d-443d-9ae3-91c0c0121362',
         scheme: 'https',
         scope: 'api/v1',
-        host: 'rnttb-106-195-37-59.a.free.pinggy.link');
+        host: 'rnkkq-27-60-174-213.a.free.pinggy.link');
   }
   Flavor flavor;
   String appLabel;

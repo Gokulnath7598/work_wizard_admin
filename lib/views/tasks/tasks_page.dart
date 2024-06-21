@@ -72,7 +72,7 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(isProject ? (tasks?[index].project?.projectName ?? ''):(tasks?[index].project?.projectName ?? ''),
+                            child: Text(isProject ? (tasks?[index].user?.name ?? ''):(tasks?[index].project?.projectName ?? ''),
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
@@ -86,7 +86,7 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: Text(tasks?[index].status ?? 'Un-Known',
+                            child: Text(tasks?[index].status  == 'in-progress' ? 'Active':'Completed',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,
                                     fontSize: 5.sp)))),
@@ -102,7 +102,7 @@ class TasksPage extends StatelessWidget {
                         DataCell(Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
-                            child: tasks?[index].status == 'completed'
+                            child: tasks?[index].status == 'active'
                             ? Text(tasks?[index].time ?? '',
                                 style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.secondary,

@@ -9,7 +9,7 @@ class ProjectTask {
     this.status,
     this.time,
     this.createdTime,
-    // this.employee,
+    this.user,
     this.project
   });
 
@@ -20,7 +20,7 @@ class ProjectTask {
     status: json?['status'].toString(),
     time: json?['effort'].toString(),
     createdTime: json?['created_time'].toString(),
-    // employee: Employee.fromJson(json?['employee'] as Map<String, dynamic>),
+    user: Employee.fromJson(json?['user'] as Map<String, dynamic>),
     project: Project.fromJson(json?['project'] as Map<String, dynamic>),
   );
 
@@ -30,7 +30,7 @@ class ProjectTask {
   String? status;
   String? time;
   String? createdTime;
-  // Employee? employee;
+  Employee? user;
   Project? project;
 
   Map<String, dynamic> toJson() {
@@ -40,7 +40,7 @@ class ProjectTask {
   data['task_description'] = task;
   data['status'] = status;
   data['effort'] = time;
-  // data['employee'] = employee;
+  data['user'] = user;
   data['project'] = project;
   return data;
   }
